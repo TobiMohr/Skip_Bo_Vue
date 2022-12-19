@@ -44,13 +44,14 @@ methods: {
         this.websocketVUE.onopen = () => {
             this.websocketVUE.send("Trying to connect to Server");
             console.log("open websocket");
-        }
+        };
 
         this.websocketVUE.onclose = () => {
             console.log("closed")
         };
 
         this.websocketVUE.onerror = () => {
+            console.log("error")
         };
 
         this.websocketVUE.onmessage = (e) => {

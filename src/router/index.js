@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import HomePage from '../components/HomePage.vue'
 import RulePage from '../components/RulePage.vue'
-import GameBoard from '../components/GameBoard.vue'
+import GameBoard from '../views/Home.vue'
 
 const routes = [
     {

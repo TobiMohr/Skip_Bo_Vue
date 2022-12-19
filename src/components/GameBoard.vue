@@ -164,11 +164,11 @@
     import { webSocketMixin } from '@/mixins/webSocketMixin'; 
 
     export default {
-        name: "Skip_Bo",
+        name: "GameBoard",
         mixins: [webSocketMixin],
         methods: {
             created() {
-                console.log("creqated?");
+                this.getData();
                 this.connectWebSocket();
             }
         }
