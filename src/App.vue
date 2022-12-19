@@ -61,7 +61,7 @@
               clickable 
               v-ripple>
               <q-item-section avatar>
-                <q-icon name="controller" />
+                <q-icon name="gamepad" />
               </q-item-section>
 
               <q-item-section>
@@ -85,7 +85,7 @@
 import { ref } from 'vue'
 
 export default {
-  name: 'LayoutDefault',
+  name: 'app',
 
   components: {
   },
@@ -94,7 +94,7 @@ export default {
     return {
       leftDrawerOpen: ref(false)
     }
-  }
+  },
 }
 </script>
 

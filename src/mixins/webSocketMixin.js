@@ -4,7 +4,7 @@ export const webSocketMixin = {
 data: function () {
     console.log("test")
     return {
-        websocketVUE: Object,
+        websocketVUE: new WebSocket("ws://localhost:9000/websocket"),
         data: {},
         playerA_Spielerstapel_Value: " ",
         playerA_Spielerstapel_Size: 0,
@@ -39,7 +39,6 @@ data: function () {
 },
 methods: {
     connectWebSocket() {
-        this.websocket = new WebSocket("ws://localhost:9000/websocket")
 
         this.websocketVUE.onopen = () => {
             this.websocketVUE.send("Trying to connect to Server");
@@ -59,10 +58,40 @@ methods: {
             console.log(e.data)
             if (typeof e.data === "string") {
                 this.data = JSON.parse(e.data)
-                this.getData();
+                this.getData(e.data);
                 console.log(e);
             }
         };
+    },
+    getData() {
+        let that = this;
+        return $.ajax({
+            method: "GET",
+            mode: 'cors',
+            url: "http://localhost:9000/status",
+            dataType: "json",
+            success: function (response) {
+                that.data = response;
+                that.playerA_Spielerstapel_Value = response.playerA_Spielerstapel_Value;
+                that.playerA_Spielerstapel_Size = response.playerA_Spielerstapel_Size;
+                that.playerB_Spielerstapel_Value = response.playerB_Spielerstapel_Value;
+                that.playerB_Spielerstapel_Size = response.playerB_Spielerstapel_Size;
+                that.ablageStapel1 = response.ablagestapel_0;
+                that.ablageStapel2 = response.ablagestapel_1;
+                that.ablageStapel3 = response.ablagestapel_2;
+                that.ablageStapel4 = response.ablagestapel_3;
+                that.current_Player = response.current_Player;
+                that.gameState = response.gamestate;
+                that.statusmessage = response.statusmessage;
+                that.selectedCard = 0;
+                that.whichCard = null;
+                that.whichStack = "";
+                that.loadPlayerCards();
+                that.loadHelpStack();
+                that.loadAblageStack();
+                that.loadSpielerStack();
+            }
+        });
     },
     loadPlayerCards() {
         if (this.current_Player === "Player A") {
@@ -113,56 +142,6 @@ methods: {
     processCmdWS(cmd, data1, data2) {
         console.log("process " + cmd + "|" + data1 + "|" + data2)
         this.websocketVUE.send(cmd + "|" + data1 + "|" + data2)
-    },
-    post(method, url, data) {
-        console.log(data);
-        return $.ajax({
-            method: method,
-            url: url,
-            data: JSON.stringify(data),
-            dataType: "json",
-            contentType: "application/json",
-
-            success: function (response) {
-                this.data = response;
-                console.log(this.data);
-            },
-            error: function (response) {
-                console.log("Error");
-                console.error(response);
-            }
-        });
-    },
-    getData() {
-        console.log("get DATA");
-        let that = this;
-        return $.ajax({
-            method: "GET",
-            url: "/status",
-            dataType: "json",
-            success: function (response) {
-                console.log("response : " + response);
-                that.data = response;
-                that.playerA_Spielerstapel_Value = response.playerA_Spielerstapel_Value;
-                that.playerA_Spielerstapel_Size = response.playerA_Spielerstapel_Size;
-                that.playerB_Spielerstapel_Value = response.playerB_Spielerstapel_Value;
-                that.playerB_Spielerstapel_Size = response.playerB_Spielerstapel_Size;
-                that.ablageStapel1 = response.ablagestapel_0;
-                that.ablageStapel2 = response.ablagestapel_1;
-                that.ablageStapel3 = response.ablagestapel_2;
-                that.ablageStapel4 = response.ablagestapel_3;
-                that.current_Player = response.current_Player;
-                that.gameState = response.gamestate;
-                that.statusmessage = response.statusmessage;
-                that.selectedCard = 0;
-                that.whichCard = null;
-                that.whichStack = "";
-                that.loadPlayerCards();
-                that.loadHelpStack();
-                that.loadAblageStack();
-                that.loadSpielerStack();
-            }
-        });
     },
     selectCard(stacktype, index) {
         console.log(stacktype);

@@ -8,18 +8,10 @@
   </style>
   
   <script>
-import { webSocketMixin } from '@/mixins/webSocketMixin';
-import GameBoard from '@/components/GameBoard.vue';
+  import GameBoard from '@/components/GameBoard.vue';
   export default {
     name: "Skip_Bo",
-    mixins: [webSocketMixin],
     components: {GameBoard},
-    methods: {
-            created() {
-                this.getData();
-                this.connectWebSocket();
-            }
-        }
   }
   </script>
   

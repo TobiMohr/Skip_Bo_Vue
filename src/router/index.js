@@ -18,6 +18,11 @@ const routes = [
         path:'/GameBoard',
         name: 'GameBoard',
         component: GameBoard
+    },
+    {
+        path: '/status',
+        name: 'status',
+        
     }
 ]
 
