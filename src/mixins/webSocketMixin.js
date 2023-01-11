@@ -152,10 +152,8 @@ export const webSocketMixin = {
 
         processCommand(cmd, data, data2) {
             console.log("CMD: " + cmd + " data1: " + data + " data2: " + data2);
-            post("POST", "/command", { "cmd": cmd, "data1": data, "data2": data2 }).then(() => {
-                getData().then(() => {
+            this.post("POST", "/command", { "cmd": cmd, "data1": data, "data2": data2 }).then(() => {
 
-                })
             })
         },
 
